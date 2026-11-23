@@ -1,42 +1,29 @@
-#this will be the file to build the app
-"""Beginner-friendly restaurant menu, ordering, and billing application."""
-
-# Dish name -> price (in EGP)
 menu = {
-    "Burger": 120.0,
-    "Pizza": 180.0,
-    "Pasta": 140.0,
-    "Salad": 70.0,
-    "Juice": 40.0,
+    "Burger": 120,
+    "Pizza": 180,
+    "Pasta": 140,
+    "Salad": 70,
+    "Juice": 40,
 }
 
-# Each order item stores its dish, unit price, and quantity.
+
 order = []
 
-# Example tax rate: 10%. Change this value as needed.
+
 TAX_RATE = 0.10
 
-
-def get_positive_number(message, whole_number=False):
-    """Ask again until the user enters a number greater than zero."""
-    while True:
-        try:
-            value = int(input(message)) if whole_number else float(input(message))
-            if 0 < value < float("inf"):
-                return value
-        except ValueError:
-            pass
-        print("Please enter a valid positive number.")
-
-
 def view_menu():
-    print("\n--- RESTAURANT MENU ---")
+    print("\n___ RESTAURANT MENU ___")
     if not menu:
         print("The menu is empty.")
         return
 
-    for number, (dish, price) in enumerate(menu.items(), start=1):
-        print(f"{number}. {dish} - {price:.2f} EGP")
+    number = 1
+
+    for dish in menu:
+        price = menu[dish]
+        print(number, dish, "-", price, "EGP")
+        number += 1
 
 
 def add_to_order():
@@ -45,7 +32,7 @@ def add_to_order():
         return
 
     view_menu()
-    choice = get_positive_number("Enter dish number: ", whole_number=True)
+    choice = int(input("Enter dish number: "))
     dishes = list(menu.items())
 
     if choice > len(dishes):
@@ -53,7 +40,7 @@ def add_to_order():
         return
 
     dish, price = dishes[choice - 1]
-    quantity = get_positive_number("Enter quantity: ", whole_number=True)
+    quantity = int(input("Enter quantity: "))
     order.append({"dish": dish, "price": price, "quantity": quantity})
     print(f"Added {quantity} x {dish} to your order!")
 
@@ -63,7 +50,7 @@ def generate_bill():
         print("\nYour order is empty. Please add a dish first.")
         return
 
-    print("\n========== YOUR BILL ==========")
+    print("\n_____________ YOUR BILL _____________")
     subtotal = 0
 
     for item in order:
@@ -78,7 +65,7 @@ def generate_bill():
     print(f"Subtotal: {subtotal:.2f} EGP")
     print(f"Tax ({TAX_RATE * 100:g}%): {tax:.2f} EGP")
     print(f"Total: {total:.2f} EGP")
-    print("===============================")
+    print("________________________________")
 
 
 def update_menu():
@@ -95,7 +82,7 @@ def update_menu():
         elif dish in menu:
             print("That dish is already on the menu.")
         else:
-            price = get_positive_number("Enter the price (EGP): ")
+            price = ("Enter the price (EGP): ")
             menu[dish] = price
             print(f"{dish} added to the menu!")
     elif choice == "2":
@@ -115,7 +102,7 @@ def update_menu():
 
 def main():
     while True:
-        print("\n===== RESTAURANT SYSTEM =====")
+        print("\n_________ RESTAURANT SYSTEM __________")
         print("1. View Menu")
         print("2. Add to Order")
         print("3. Generate Bill")
@@ -136,7 +123,6 @@ def main():
             break
         else:
             print("Invalid option. Please choose 1-5.")
-
 
 if __name__ == "__main__":
     main()
